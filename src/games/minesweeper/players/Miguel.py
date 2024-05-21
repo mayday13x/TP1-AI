@@ -3,7 +3,7 @@ from games.minesweeper.state import MinesweeperState
 from games.state import State
 
 
-class chicoXpertoMinesweeperPlayer(MinesweeperPlayer):
+class MiguelMinesweeperPlayer(MinesweeperPlayer):
 
     def __init__(self, name):
         super().__init__(name)
@@ -16,6 +16,18 @@ class chicoXpertoMinesweeperPlayer(MinesweeperPlayer):
 
         scored_actions = []
         for action in possible_actions:
+            for r in range(num_rows):
+                for c in range(num_cols):
+                    cell = grid[r][c]
+                    #se a célula é 0's pode jogar à volta dessa célula pois não vai ter bomba
+                    if cell == 0:
+                        neighbors = list(MiguelMinesweeperPlayer.get_neighbors(grid, r, c, num_rows, num_cols))
+                        for neighbor in neighbors:
+                            _row, _col = neighbor
+                           # print(f"safe: neighbor: {_row}, {_col}")
+                            if _row == action.get_row() and _col == action.get_col():
+                                return action
+                            
             row, col = action.get_row(), action.get_col()
             risk = self.calculate_risk(grid, action, num_rows, num_cols)
             # Prioritize exploration over guaranteed safety for some actions
@@ -25,6 +37,13 @@ class chicoXpertoMinesweeperPlayer(MinesweeperPlayer):
 
         return min(scored_actions, key=lambda x: x[1])[0]  # Choose action with lowest score
 
+
+    @staticmethod
+    def get_neighbors(grid, row, col, num_rows, num_cols):
+        
+        for r in range(max(0, row - 1), min(num_rows, row + 2)):
+            for c in range(max(0, col - 1), min(num_cols, col + 2)):
+                yield (r, c)
 
     @staticmethod
     def is_interesting_exploration(grid, row, col, num_rows, num_cols):
@@ -39,7 +58,7 @@ class chicoXpertoMinesweeperPlayer(MinesweeperPlayer):
             if (row == 0 or row == num_rows - 1 or col == 0 or col == num_cols - 1):
                 return True
             # Isolated cells (careful, can be risky)
-            if chicoXpertoMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols) == 8:
+            if MiguelMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols) == 8:
                 return True
         return False
 
@@ -66,7 +85,7 @@ class chicoXpertoMinesweeperPlayer(MinesweeperPlayer):
 
         # If no risk indication from neighbors, consider the number of unrevealed neighbors as a fallback risk measure
         if risk == 0:
-            risk = chicoXpertoMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols)
+            risk = MiguelMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols)
 
         return risk
 
