@@ -55,12 +55,12 @@ class MinesweeperState(State):
                 if (r, c) != (row, col) and (r, c) in self.__mines:
                     count += 1
         return count
-
-    def get_result(self, player):
+        '''
+        def get_result(self, player):
         if not self.__has_winner:
             return None
-        return MinesweeperResult.WIN if self.__mines_hit[player] < self.__mines_hit[1 - player] else MinesweeperResult.LOSE
-
+        return MinesweeperResult.WIN if self.__mines_hit[player] < self.__mines_hit[1 - player] else MinesweeperResult.LOOSE
+        '''
     def get_num_players(self):
         return 2
 

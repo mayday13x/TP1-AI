@@ -34,9 +34,9 @@ class HumanConnect4Player(Connect4Player):
     def event_end_game(self, final_state: Connect4State):
         final_state.display()
         [color, char] = self.get_color()
-        if self.__last_result == Connect4Result.LOOSE.value[0]:
+        if self.__last_result == Connect4Result.LOOSE.value:
             print(colored(f">{self.get_name()} ({char}) > I lost!", color))
-        elif self.__last_result == Connect4Result.WIN.value[0]:
+        elif self.__last_result == Connect4Result.WIN.value:
             print(colored(f">{self.get_name()} ({char}) > I won!", color))
         else:
             print(colored(f">{self.get_name()} ({char}) > I drawn!", color))

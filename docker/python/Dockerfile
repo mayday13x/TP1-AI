@@ -20,8 +20,11 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 # Make the entrypoint script executable
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+# Fix endlines for windows systems
+RUN sed -i 's/\r$//' /usr/local/bin/entrypoint.sh
+
 # Set the entrypoint
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
 
 # Set default command (to be overridden by ENTRYPOINT script)
 CMD ["main.py"]
