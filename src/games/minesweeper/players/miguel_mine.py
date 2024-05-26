@@ -8,7 +8,7 @@ from games.minesweeper.state import MinesweeperState
 from games.state import State
 
 
-class MaydayMinesweeperPlayer(MinesweeperPlayer):
+class MiguelMinesweeperPlayer(MinesweeperPlayer):
 
     def __init__(self, name):
         super().__init__(name)
@@ -42,13 +42,13 @@ class MaydayMinesweeperPlayer(MinesweeperPlayer):
             for c in range(num_cols):
                 cell = grid[r][c]
                 if cell == 0:
-                    neighbors = set(MaydayMinesweeperPlayer.get_unrevealed_neighbors(grid, r, c, num_rows, num_cols))
+                    neighbors = set(MiguelMinesweeperPlayer.get_unrevealed_neighbors(grid, r, c, num_rows, num_cols))
                     scored_actions.append((0, neighbors))
 
                 if cell > 0:
                     mines_count = 0
-                    unrevealed_neighbors = set(MaydayMinesweeperPlayer.get_unrevealed_neighbors(grid, r, c, num_rows, num_cols))
-                    neighbors = set(MaydayMinesweeperPlayer.get_neighbors(grid, r, c, num_rows, num_cols))
+                    unrevealed_neighbors = set(MiguelMinesweeperPlayer.get_unrevealed_neighbors(grid, r, c, num_rows, num_cols))
+                    neighbors = set(MiguelMinesweeperPlayer.get_neighbors(grid, r, c, num_rows, num_cols))
                     for neighbor in neighbors:
                         _row, _col = neighbor
                         if grid[_row][_col] == MinesweeperState.MINE_CELL:
@@ -112,7 +112,7 @@ class MaydayMinesweeperPlayer(MinesweeperPlayer):
         for r in range(max(0, row - 1), min(num_rows, row + 2)):
             for c in range(max(0, col - 1), min(num_cols, col + 2)):
                 if grid[r][c] > 0:  # Cell is a number
-                    if MaydayMinesweeperPlayer.count_unrevealed_neighbors(grid, r, c, num_rows, num_cols) == grid[r][c]:
+                    if MiguelMinesweeperPlayer.count_unrevealed_neighbors(grid, r, c, num_rows, num_cols) == grid[r][c]:
                         return True  # Safe to reveal
         return False
 
@@ -139,7 +139,7 @@ class MaydayMinesweeperPlayer(MinesweeperPlayer):
 
         # If no risk indication from neighbors, consider the number of unrevealed neighbors as a fallback risk measure
         if risk == 0:
-            risk = MaydayMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols)
+            risk = MiguelMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols)
 
         return risk
 

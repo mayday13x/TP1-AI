@@ -9,32 +9,30 @@ from games.connect4.state import Connect4State
 from games.state import State
 
 
-class MiguelConnect4Player(Connect4Player):
+class testando(Connect4Player):
 
     def __init__(self, name):
         super().__init__(name)
 
     def get_action(self, state: Connect4State):
-        col, value = self.minimax(state, 3, -math.inf, math.inf, True)
+        col, value = self.minimax(state, 4, -math.inf, math.inf, True)
         
         if col is None:
             raise Exception("There is no valid action")
-
+    
         return Connect4Action(col)
         #return self.pick_best_action(state)
     
 
     def minimax(self, state: Connect4State, depth: int, alpha: float, beta: float, max_player: bool):
-        '''if depth == 0 or state.is_finished():
-            return (None, self.eval_state(state))'''
+
+        valid_locations = self.get_valid_locations(state)
         if state.is_finished():
             if state.get_result(self.get_current_pos()) == Connect4Result.WIN.value:
-                #print("WIN")
+                #print(f"{depth}, WIN, {state.get_result(self.get_current_pos())} = {Connect4Result.WIN.value}")
                 return (None, 100000)
             elif state.get_result(self.get_current_pos()) == Connect4Result.LOOSE.value:
-                #print("LOOSE")
-                #for row in state.get_grid():
-                    #print(f"{row}\n")
+                #print(f"{depth}, LOOSE, {state.get_result(self.get_current_pos())} = {Connect4Result.LOOSE.value}")
                 return (None, -100000)
             else:
                 return (None, 0)
@@ -43,7 +41,7 @@ class MiguelConnect4Player(Connect4Player):
         
         if max_player:
             value = -math.inf
-            best_col = 3 ## ou random
+            best_col = choice(valid_locations)
             for action in state.get_possible_actions():
                 state_clone = state.clone()
                 state_clone.update(action)
@@ -101,7 +99,7 @@ class MiguelConnect4Player(Connect4Player):
         center_count = center_array.count(self.get_current_pos())
         score += center_count * 3
 
-        # HORZONTAL
+        # HORiZONTAL
         for row in range(state.get_num_rows()):
             row_array = state.get_grid()[row]
             for col in range(state.get_num_cols() - 3):

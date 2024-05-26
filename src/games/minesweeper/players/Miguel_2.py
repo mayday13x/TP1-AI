@@ -3,7 +3,7 @@ from games.minesweeper.state import MinesweeperState
 from games.state import State
 
 
-class MiguelMinesweeperPlayer(MinesweeperPlayer):
+class MigMinesweeperPlayer(MinesweeperPlayer):
 
     def __init__(self, name):
         super().__init__(name)
@@ -21,7 +21,7 @@ class MiguelMinesweeperPlayer(MinesweeperPlayer):
                     cell = grid[r][c]
                     #se a célula é 0's pode jogar à volta dessa célula pois não vai ter bomba
                     if cell == 0:
-                        neighbors = list(MiguelMinesweeperPlayer.get_neighbors(grid, r, c, num_rows, num_cols))
+                        neighbors = list(MigMinesweeperPlayer.get_neighbors(grid, r, c, num_rows, num_cols))
                         for neighbor in neighbors:
                             _row, _col = neighbor
                            # print(f"safe: neighbor: {_row}, {_col}")
@@ -58,7 +58,7 @@ class MiguelMinesweeperPlayer(MinesweeperPlayer):
             if (row == 0 or row == num_rows - 1 or col == 0 or col == num_cols - 1):
                 return True
             # Isolated cells (careful, can be risky)
-            if MiguelMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols) == 8:
+            if MigMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols) == 8:
                 return True
         return False
 
@@ -85,7 +85,7 @@ class MiguelMinesweeperPlayer(MinesweeperPlayer):
 
         # If no risk indication from neighbors, consider the number of unrevealed neighbors as a fallback risk measure
         if risk == 0:
-            risk = MiguelMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols)
+            risk = MigMinesweeperPlayer.count_unrevealed_neighbors(grid, row, col, num_rows, num_cols)
 
         return risk
 
